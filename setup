@@ -1,0 +1,103 @@
+#!/usr/bin/env zsh
+
+set -eu
+
+main() {
+
+    applications=(zsh setup_zsh
+                  vim setup_vim
+                  tmux setup_tmux
+                  git setup_git)
+
+    case "$(uname -a)" in
+        *Microsoft*)
+            echo "windows"
+            export cpp='cpp -D_WIN32 -P'
+            ;;
+        *)
+            echo "not windows"
+            export cpp='cpp -D__linux__ -P'
+            ;;
+    esac
+
+    for app installer in ${(kv)applications}; do
+        printf 'Setting up %s...\n' "${app}"
+        eval "${installer}"
+    done
+
+}
+
+# Builds arguments for the C preprocessor
+# Example input:
+# (a 1
+#  b 2
+#  c 3)
+# Example output:
+# (-Da=1 -Db=2 -Dc=3)
+_build_cpp_args() {
+
+    declare -A options
+    options=($@)
+    for option value in ${(kv)options}; do
+        printf '-D%s=%s ' "${option}" "${value}"
+    done
+}
+
+setup_aliases() {
+    
+    declare -A aliases
+    aliases=()
+
+    for alias_name value in ${(kv)aliases}; do
+        alias "${alias_name}=${value}"
+    done
+}
+setup_vim() {
+
+    # Vim Configuration
+    declare -A vim_opts
+    vim_opts=(EXPAND_TAB      yes
+              TAB_SIZE        4
+              RELATIVE_NUMBER yes)
+
+    # Vim configuration template
+    template=vim/vimrc.in
+
+    cpp_args=$(_build_cpp_args ${(kv)vim_opts})
+
+    # ${vim_opts/#/-D} expands all the elements of the array and prefixes with '-D'
+    ${=cpp} ${=cpp_args} "${template}" > ~/.vimrc
+}
+
+setup_tmux() {
+
+    # tmux options
+    declare -A tmux_opts
+    tmux_opts=(PREFIX a
+               DEFAULT_TERMINAL 'xterm-256color')
+
+    # tmux.conf template
+    template=tmux/tmux.conf.in
+
+    printf 'Installing tmux-themepack to ~/.tmux-themepack\n'
+    git clone https://github.com/jimeh/tmux-themepack.git ~/.tmux-themepack || true
+
+    printf 'Modifying tmux.conf\n'
+    cpp_args=$(_build_cpp_args ${(kv)tmux_opts})
+    ${=cpp} ${=cpp_args} "${template}" > ~/.tmux.conf
+}
+
+setup_git() {
+  
+    declare -A git_opts
+    git_opts=(email 'ealejandro@outlook.com'
+              name  'Alex Diaz')
+
+    git config --global user.email "${git_opts[email]}"
+    git config --global user.name "${git_opts[name]}"
+} 
+
+setup_zsh() {
+}
+
+main

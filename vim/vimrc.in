@@ -1,0 +1,19 @@
+// Configure tab size and indentation
+set shiftwidth=TAB_SIZE
+set tabstop=TAB_SIZE
+set softtabstop=TAB_SIZE
+
+filetype indent plugin on
+
+#ifdef EXPAND_TAB
+set expandtab
+#endif
+
+// UI Configurations
+syntax on
+
+#ifdef RELATIVE_NUMBER
+set relativenumber
+#endif
+
+set number

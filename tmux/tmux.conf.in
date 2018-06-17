@@ -1,0 +1,22 @@
+// Modify default prefix
+// doesn't work on CmdEr so we disable this on windows
+#ifndef _WIN32
+set -g prefix PREFIX
+bind PREFIX send-prefix
+#endif
+
+// Start windows from 1
+set -g base-index 1
+
+// Set window titles
+set-window-option -g automatic-rename on
+set-option -g set-titles on
+
+// Config quick-reload
+bind r source-file ~/.tmux.conf
+
+// Set default terminal
+set -g default-terminal DEFAULT_TERMINAL
+
+// Set theme
+source-file ~/.tmux-themepack/powerline/default/red.tmuxtheme
