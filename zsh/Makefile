@@ -1,0 +1,14 @@
+CPPFLAGS=-P
+CPP=cpp
+CPPDEFINES=
+TEMPLATE=zshrc.in
+TARGETFILE=$(HOME)/.zshrc
+SUBTARGETS=$(shell find * -maxdepth 0 -type d -print)
+
+.PHONY: $(SUBTARGETS)
+
+all: $(SUBTARGETS)
+	$(CPP) $(CPPFLAGS) $(CPPDEFINES) $(TEMPLATE) > $(TARGETFILE)
+$(SUBTARGETS):
+	echo $(SUBTARGETS)
+	$(MAKE) -C $@

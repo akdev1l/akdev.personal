@@ -1,0 +1,18 @@
+/* 
+ *  Executes commands at the start of an interactive session.
+ */ 
+
+// Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+// Configure Editor
+
+export EDITOR=vim
+export VISUAL=vim
+
+// Windows-specific
+#ifdef _WIN32
+export TMUX_TMPDIR=/tmp
+#endif

@@ -1,0 +1,55 @@
+#!/usr/bin/zsh
+
+set -eu
+
+main() {
+
+    applications=($(find * -maxdepth 0 -type d -print))
+	cppDefines=""
+	declare -A options
+	options=( 
+			  # Vim options
+			  EXPAND_TAB yes
+			  TAB_SIZE 4
+			  RELATIVE_NUMBER yes
+
+			  # Tmux options
+			  PREFIX '`'
+              DEFAULT_TERMINAL 'xterm-256color'
+
+			  # Git options
+			  GIT_EMAIL 'ealejandro@outlook.com'
+              GIT_NAME  'Alex Diaz'
+		    )
+				
+
+    case "$(uname -a)" in
+        *Microsoft*)
+			cppDefines='${cppDefines} -D_WIN32'
+            ;;
+        *)
+			cppDefines='${cppDefines} -D__linux__'
+            ;;
+    esac
+
+	make config CPPDEFINES="${cppDefines} $(_build_cpp_args ${(kv)options})"
+
+}
+
+# Builds arguments for the C preprocessor
+# Example input:
+# (a 1
+#  b 2
+#  c 3)
+# Example output:
+# (-Da=1 -Db=2 -Dc=3)
+_build_cpp_args() {
+
+    declare -A options
+    options=($@)
+    for option value in ${(kv)options}; do
+        printf "-D%s='%s' " "${option}" "${value}"
+    done
+}
+
+main

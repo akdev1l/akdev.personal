@@ -1,3 +1,9 @@
+/**
+ * This configuration file requires the following defines:
+ * 
+ * - PREFIX: The prefix for tmux
+ */
+
 // Modify default prefix
 // doesn't work on CmdEr so we disable this on windows
 #ifndef _WIN32

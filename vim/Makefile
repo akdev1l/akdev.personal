@@ -1,0 +1,9 @@
+CPPFLAGS=-P
+CPP=cpp
+CPPDEFINES= -DTAB_SIZE=4
+CPPDEFINES+= -DRELATIVE_NUMBER
+          
+
+
+all:
+	$(CPP) $(CPPFLAGS) $(CPPDEFINES) vimrc.in > $(HOME)/.vimrc 

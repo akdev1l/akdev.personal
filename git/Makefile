@@ -1,0 +1,8 @@
+CPPFLAGS=-P
+CPP=cpp
+CPPDEFINES=
+TEMPLATE=gitconfig.in
+TARGETFILE=$(HOME)/.gitconfig
+
+all:
+	$(CPP) $(CPPFLAGS) $(CPPDEFINES) $(TEMPLATE) > $(TARGETFILE)
