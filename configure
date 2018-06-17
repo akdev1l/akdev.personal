@@ -2,6 +2,8 @@
 
 set -eu
 
+export SHELL=/usr/bin/zsh
+
 main() {
 
     applications=($(find * -maxdepth 0 -type d -print))
@@ -32,7 +34,7 @@ main() {
             ;;
     esac
 
-	make config CPPDEFINES="${cppDefines} $(_build_cpp_args ${(kv)options})"
+	make config CPPDEFINES="${cppDefines} $(_build_cpp_args ${(kv)options})" SHELL="${SHELL}"
 
 }
 
