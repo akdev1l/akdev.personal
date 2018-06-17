@@ -9,9 +9,9 @@ all: prezto $(SUBTARGETS)
 	$(CPP) $(CPPFLAGS) $(CPPDEFINES) $(TEMPLATE) > $(TARGETFILE)
 
 prezto:
-	git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
-	for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
-		ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+	git clone --recursive https://github.com/sorin-ionescu/prezto.git $(HOME)/.zprezto
+	for rcfile in ${HOME}/.zprezto/runcoms/^README.md(.N); do \
+		ln -s "$rcfile" "${HOME}/.${rcfile:t}" \
 	done
 
 $(SUBTARGETS):
