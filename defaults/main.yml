@@ -1,4 +1,5 @@
 personal_packages:
+  - git
   - zsh
   - podman
   - buildah

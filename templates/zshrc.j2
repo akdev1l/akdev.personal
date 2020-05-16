@@ -80,6 +80,11 @@ export EDITOR='vim'
 export VISUAL='vim'
 export WORKSHOP="${HOME}/workshop"
 
+if ! grep -q "$HOME/.local/bin" <<<"$PATH"; then
+    export PATH="$HOME/.local/bin:${PATH}"
+fi
+
+
 #
 # Compiler Flags
 #

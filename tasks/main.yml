@@ -36,7 +36,7 @@
     - name: install oh-my-zsh
       become: "{{personal_user}}"
       when: not curr_ozsh.stat.exists
-      shell: "bash {{ansible_remote_tmp}}/ozsh-install.sh"
+      shell: "bash {{ansible_remote_tmp}}/ozsh-install.sh --unattended"
 
     - name: deploy .zshrc
       become: "{{personal_user}}"
@@ -90,3 +90,10 @@
       become: yes
       shell: "chsh -s /usr/bin/zsh {{personal_user}}"
       when: getent_passwd[personal_user][5] != "/usr/bin/zsh"
+
+- name: deploy vim configuration
+  template:
+    src: vimrc.j2
+    dest: "{{personal_home}}/.vimrc"
+    owner: "{{personal_user}}"
+    group: "{{personal_user}}"
